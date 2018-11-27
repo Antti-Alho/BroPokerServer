@@ -1,6 +1,6 @@
 import random
 
-def generatePokerhands(player_count):
+def generatePokerHands(player_count):
 	deck = []
 	for i in range(4):
 		for j in range(13):
