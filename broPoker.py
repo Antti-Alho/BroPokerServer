@@ -1,6 +1,5 @@
 import cv2 as cv
 import random
-from randomHand import generatePokerHands
 from matplotlib import pyplot as plt
 
 player_count = 4
@@ -68,7 +67,7 @@ def threeOfKind(hand):
 	for card in hand:
 		values.append(card[0])
 	values.sort()
-	x,y = 0,0
+	x,y = -1,-1
 	for i in values:
 		if x == i and y == i:
 			return True
@@ -77,37 +76,57 @@ def threeOfKind(hand):
 	return False
 
 def straight(hand):
-	values = []
+	values = set()
+	hand.sort()
+	x = 0
 	for card in hand:
-		values.append(card[0])
-	values.sort()
-	values.append(0)
-	for i in values:
-		if i == list[i+1]+1:
-			continue
-		else:
-			return False
-	return True
+		values.add(card[0]-x)
+		x = x+1
+	if len(values) == 1:
+		return True
+	return False
 
 def flush(hand):
-	suits = set([])
+	suits = set()
 	for card in hand:
 		suits.add(card[1])
-	if len(set) == 1:
+	if len(suits) == 1:
 		return True
 	return False
 
 def fullHouse(hand):
-	return True
+	values = set()
+	for card in hand:
+		values.add(card[0])
+	if len(values) == 2:
+		return True
+	return False
 
 def fourOfKind(hand):
-	return True
+	values = []
+	for card in hand:
+		values.append(card[0])
+	values.sort()
+	a,b,c = -1,-1,-1
+	for value in values:
+		if value == a and value == b and value == c:
+			return True
+		c = b
+		b = a
+		a = value
+	return False
 
 def straightFlush(hand):
-	return True
+	if straight(hand) == True and flush(hand) == True:
+		return True
+	return False
 
 def royalFlush(hand):
-	return True
+	hand.sort()
+	card = hand[4]
+	if straightFlush(hand) == True and card[0] == 14:
+		return True
+	return False
 
 def scoreFrontHand(hand):
 	return 0
@@ -131,8 +150,8 @@ def countScore(fullHand):
 def generatePokerHands(playerCount):
 	deck = []
 	for i in range(4):
-		for j in range(13):
-			card = [j,i+1]
+		for j in range(14):
+			card = [j+1,i+1]
 			deck.append(card)
 	random.shuffle(deck)
 	hands = []
@@ -147,85 +166,10 @@ def generatePokerHands(playerCount):
 		hands.append(hand)
 	return hands
 
-# generates hands till 
-def handRezocnitionTest():
-	print("generates hands and calls hand recognition functions till they return True")
-	print("then prints the function name and the hand that returned True")
-	print("-----test-----")
-	hands = generatePokerHands(1)
-	hand = hands[0]
-	cards = hand[2]
-
-	while False == pair(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("pair:")
-	print(cards)
-	print("-----")
-	while False == twoPairs(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("twoPairs:")
-	print(cards)
-	print("-----")
-	while False == threeOfKind(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("threeOfKind:")
-	print(cards)
-	print("-----")
-	while False == straight(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("straight:")
-	print(cards)
-	print("-----")
-	while False == flush(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("flush:")
-	print(cards)
-	print("-----")
-	while False == fullHouse(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("fullHouse:")
-	print(cards)
-	print("-----")
-	while False == fourOfKind(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("fourOfKind:")
-	print(cards)
-	print("-----")
-	while False == straightFlush(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("straightFlush:")
-	print(cards)
-	print("-----")
-	while False == royalFlush(cards):
-		hands = generatePokerHands(1)
-		hand = hands[0]
-		cards = hand[2]
-	print("royalFlush:")
-	print(cards)
-	print("-----")
-
-
 
 pokerHands = generatePokerHands(player_count)
 score = []
-#print(pokerHands)
+print(pokerHands)
 for i in range(len(pokerHands)):
 	score.append(countScore(pokerHands[i]))
-#print(score)
-handRezocnitionTest()
+print(score)
