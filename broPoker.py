@@ -55,12 +55,20 @@ def pair(hand):
 		x = i	
 	return False
 
+def twoPairs(hand):
+	values = set()
+	for card in hand:
+		values.add(card[0])
+	if len(values) == 3 and False == threeOfKind(hand):
+		return True
+	return False
+
 def threeOfKind(hand):
 	values = []
 	for card in hand:
 		values.append(card[0])
 	values.sort()
-	x,y = 0
+	x,y = 0,0
 	for i in values:
 		if x == i and y == i:
 			return True
@@ -90,16 +98,16 @@ def flush(hand):
 	return False
 
 def fullHouse(hand):
-	return 0
+	return True
 
 def fourOfKind(hand):
-	return 0
+	return True
 
 def straightFlush(hand):
-	return 0
+	return True
 
 def royalFlush(hand):
-	return 0
+	return True
 
 def scoreFrontHand(hand):
 	return 0
@@ -139,7 +147,11 @@ def generatePokerHands(playerCount):
 		hands.append(hand)
 	return hands
 
-def lazyTest():
+# generates hands till 
+def handRezocnitionTest():
+	print("generates hands and calls hand recognition functions till they return True")
+	print("then prints the function name and the hand that returned True")
+	print("-----test-----")
 	hands = generatePokerHands(1)
 	hand = hands[0]
 	cards = hand[2]
@@ -148,8 +160,65 @@ def lazyTest():
 		hands = generatePokerHands(1)
 		hand = hands[0]
 		cards = hand[2]
-	print(pair(cards))
+	print("pair:")
 	print(cards)
+	print("-----")
+	while False == twoPairs(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("twoPairs:")
+	print(cards)
+	print("-----")
+	while False == threeOfKind(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("threeOfKind:")
+	print(cards)
+	print("-----")
+	while False == straight(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("straight:")
+	print(cards)
+	print("-----")
+	while False == flush(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("flush:")
+	print(cards)
+	print("-----")
+	while False == fullHouse(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("fullHouse:")
+	print(cards)
+	print("-----")
+	while False == fourOfKind(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("fourOfKind:")
+	print(cards)
+	print("-----")
+	while False == straightFlush(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("straightFlush:")
+	print(cards)
+	print("-----")
+	while False == royalFlush(cards):
+		hands = generatePokerHands(1)
+		hand = hands[0]
+		cards = hand[2]
+	print("royalFlush:")
+	print(cards)
+	print("-----")
 
 
 
@@ -159,4 +228,4 @@ score = []
 for i in range(len(pokerHands)):
 	score.append(countScore(pokerHands[i]))
 #print(score)
-lazyTest()
+handRezocnitionTest()
