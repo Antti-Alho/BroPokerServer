@@ -1,46 +1,13 @@
-import cv2 as cv
 import random
-from matplotlib import pyplot as plt
+import configparser
 
-player_count = 4
+config = configparser.ConfigParser()
+config.read('conf.ini')
+print(config.sections())
+player_count = config['general']['player_count']
 poker_card_types = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-card_name = {
-    1: 'Ace',
-    2: 'Two',
-    3: 'Three',
-    4: 'Four',
-    5: 'Five',
-    6: 'Six',
-    7: 'Seven',
-    8: 'Eight',
-    9: 'Nine',
-    10: 'Ten',
-    11: 'Jack',
-    12: 'Queen',
-    13: 'King',
-}
-
 poker_suit_types = [1, 2, 3, 4]
-suits_name = {
-    1: 'Heart',
-    2: 'Spade',
-    3: 'Diamond',
-    4: 'Club',
-}
-
 poker_hand_types = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-hand_name = {
-    0: 'Nothing in hand',
-    1: 'One pair',
-    2: 'Two pairs',
-    3: 'Three of a kind',
-    4: 'Straight',
-    5: 'Flush',
-    6: 'Full house',
-    7: 'Four of a kind',
-    8: 'Straight flush',
-    9: 'Royal flush',
-}
 
 def pair(hand):
     values = []
@@ -129,6 +96,14 @@ def royalFlush(hand):
     return False
 
 def scoreFrontHand(hand):
+    hand.sort()
+    if threeOfKind(hand):
+        return 9 + hand[0]
+    if pair(hand):
+        if hand[2] >= 5:
+            return 1 + hand[0]
+        else:
+            return 1
     return 0
 
 def scoreMiddleHand(hand):
@@ -166,10 +141,11 @@ def generatePokerHands(playerCount):
         hands.append(hand)
     return hands
 
-
-pokerHands = generatePokerHands(player_count)
-score = []
-print(pokerHands)
-for i in range(len(pokerHands)):
-    score.append(countScore(pokerHands[i]))
-print(score)
+def main():
+    pokerHands = generatePokerHands(player_count)
+    score = []
+    print(pokerHands)
+    for i in range(len(pokerHands)):
+        score.append(countScore(pokerHands[i]))
+    print(score)
+    
