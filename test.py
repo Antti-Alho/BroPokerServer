@@ -95,4 +95,4 @@ def handRezocnitionTest():
     print(cards)
     print("-----")
 
-handRezocnitionTest()
+handRecognitionTest()
