@@ -24,7 +24,7 @@ def generateRoyalFlush():
     hand = [[13,4],[12,4],[11,4],[10,4],[14,4]]
     return hand
 
-def handRezocnitionTest():
+def handRecognitionTest():
     print("generates hands and calls hand recognition functions till they return True")
     print("then prints the function name and the hand that returned True")
     print("-----test-----")
@@ -95,4 +95,4 @@ def handRezocnitionTest():
     print(cards)
     print("-----")
 
-handRezocnitionTest()
+handRecognitionTest()
